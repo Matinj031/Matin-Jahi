@@ -3,50 +3,33 @@
 
 <section class="gift-banner">
 
-  <div class="gift-banner__graphics" aria-hidden="true">
-    <img
-      src="{{ 'Frame.svg' | asset_url }}"
-      alt=""
-      class="gift-banner__frame gift-banner__frame--top"
-      loading="eager"
-      width="1390"
-      height="390"
-    >
+  {%- comment -%} ===== Top bar: logo + announcement + Choose Gift button ===== {%- endcomment -%}
+  <div class="gift-banner__topbar">
+    <a href="{{ routes.root_url }}" class="gift-banner__logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 300 }}"
+          alt="{{ shop.name }}"
+          width="153"
+          height="19"
+          loading="eager"
+        >
+      {%- else -%}
+        <span class="gift-banner__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
 
-    <img
-      src="{{ 'Frame2.svg' | asset_url }}"
-      alt=""
-      class="gift-banner__frame gift-banner__frame--bottom"
-      loading="eager"
-      width="890"
-      height="402"
-    >
-  </div>
+    {%- if section.settings.announcement_text != blank -%}
+      <p class="gift-banner__announcement">{{ section.settings.announcement_text }}</p>
+    {%- endif -%}
 
-  <div class="gift-banner__page-width">
-
-    <div class="gift-banner__content">
-
-      <p class="gift-banner__eyebrow">
-        {{ section.settings.eyebrow }}
-      </p>
-
-      <h1 class="gift-banner__title">
-        {{ section.settings.heading }}
-      </h1>
-
-      <div class="gift-banner__description rte">
-        {{ section.settings.description }}
-      </div>
-
+    {%- if section.settings.announcement_button_text != blank -%}
       <a
-        href="{{ section.settings.button_link }}"
-        class="gift-banner__button"
+        href="{{ section.settings.announcement_button_link | default: '#' }}"
+        class="gift-banner__topbar-button"
       >
-        <span>{{ section.settings.button_text }}</span>
-
+        <span>{{ section.settings.announcement_button_text }}</span>
         <svg
-          class="gift-banner__button-icon"
           width="18"
           height="12"
           viewBox="0 0 18 12"
@@ -63,10 +46,77 @@
           />
         </svg>
       </a>
+    {%- endif -%}
+  </div>
 
+  {%- comment -%} ===== Hero: illustration + heading + description + Shop Now ===== {%- endcomment -%}
+  <div class="gift-banner__hero">
+
+    <div class="gift-banner__graphics" aria-hidden="true">
+      <img
+        src="{{ 'Frame.svg' | asset_url }}"
+        alt=""
+        class="gift-banner__frame gift-banner__frame--top"
+        loading="eager"
+        width="1390"
+        height="390"
+      >
+      <img
+        src="{{ 'Frame2.svg' | asset_url }}"
+        alt=""
+        class="gift-banner__frame gift-banner__frame--bottom"
+        loading="eager"
+        width="890"
+        height="402"
+      >
+    </div>
+
+    <div class="gift-banner__page-width">
+      <div class="gift-banner__content">
+
+        <h1 class="gift-banner__title">
+          {{ section.settings.heading }}
+        </h1>
+
+        <div class="gift-banner__description rte">
+          {{ section.settings.description }}
+        </div>
+
+        <a
+          href="{{ section.settings.button_link }}"
+          class="gift-banner__button"
+        >
+          <span>{{ section.settings.button_text }}</span>
+          <svg
+            class="gift-banner__button-icon"
+            width="18"
+            height="12"
+            viewBox="0 0 18 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M1 6H16M16 6L11 1M16 6L11 11"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+
+      </div>
     </div>
 
   </div>
+
+  {%- comment -%} ===== Bottom strip ===== {%- endcomment -%}
+  {%- if section.settings.bottom_strip_text != blank -%}
+    <div class="gift-banner__strip">
+      <p>{{ section.settings.bottom_strip_text }}</p>
+    </div>
+  {%- endif -%}
 
 </section>
 
@@ -77,10 +127,35 @@
   "class": "section-gift-banner",
   "settings": [
     {
+      "type": "header",
+      "content": "Top bar"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Falls back to shop name if empty"
+    },
+    {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
+      "id": "announcement_text",
+      "label": "Announcement text",
       "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "announcement_button_text",
+      "label": "Announcement button text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "announcement_button_link",
+      "label": "Announcement button link"
+    },
+    {
+      "type": "header",
+      "content": "Hero"
     },
     {
       "type": "text",
@@ -97,13 +172,23 @@
     {
       "type": "text",
       "id": "button_text",
-      "label": "Button Text",
+      "label": "Button text",
       "default": "SHOP NOW"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Bottom strip"
+    },
+    {
+      "type": "text",
+      "id": "bottom_strip_text",
+      "label": "Bottom strip text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
     }
   ],
   "presets": [
