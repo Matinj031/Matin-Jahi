@@ -99,7 +99,6 @@
    screens wider than the design. */
 .gift-banner__hero-inner {
   position: relative;
-  overflow: hidden;
   width: 100%;
   max-width: 1440px;
   min-height: 780px;
@@ -109,6 +108,7 @@
 .gift-banner__graphics {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
   z-index: 1;
 }
