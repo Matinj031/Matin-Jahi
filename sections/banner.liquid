@@ -29,15 +29,14 @@
 
     <div class="banner__media">
 
-      {% if section.settings.hero_image != blank %}
-        {{
-          section.settings.hero_image
-          | image_url: width: 1600
-          | image_tag:
-            loading: 'eager',
-            class: 'banner__image'
-        }}
-      {% endif %}
+      <img
+        src="{{ 'Frame.svg' | asset_url }}"
+        alt="Gift Guide"
+        class="banner__image"
+        loading="eager"
+        width="640"
+        height="640"
+      >
 
     </div>
 
@@ -77,11 +76,6 @@
       "type": "url",
       "id": "button_link",
       "label": "Button Link"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero Image"
     }
   ],
   "presets": [

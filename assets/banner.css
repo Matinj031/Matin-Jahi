@@ -1,29 +1,53 @@
 .banner {
-  padding: 4rem 0;
+  padding: 96px 0;
 }
 
 .banner .page-width {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 4rem;
+  gap: 80px;
 }
 
 .banner__content {
-  flex: 1;
+  max-width: 520px;
+}
+
+.banner__eyebrow {
+  margin: 0 0 20px;
+}
+
+.banner__title {
+  margin: 0 0 24px;
+}
+
+.banner__description {
+  margin-bottom: 40px;
 }
 
 .banner__media {
-  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .banner__image {
   width: 100%;
+  max-width: 620px;
   height: auto;
   display: block;
 }
 
-.banner__button {
-  display: inline-flex;
-  margin-top: 2rem;
+
+@media screen and (max-width: 990px) {
+
+  .banner .page-width {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    text-align: center;
+  }
+
+  .banner__content {
+    max-width: none;
+  }
+
 }
