@@ -113,7 +113,7 @@
 .gift-banner__frame--top {
   top: 0;
   left: 0;
-  width: 100%;
+  min-width: 100%;
 }
 
 .gift-banner__frame--bottom {
