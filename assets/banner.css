@@ -90,18 +90,8 @@
   overflow: hidden;
   width: 100%;
   max-width: 1440px;
-  min-height: 780px;
+  min-height: 814px;
   margin: 0 auto;
-
-  display: flex;
-  align-items: flex-end;
-}
-
-.gift-banner .gift-banner__page-width {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 0 67px 80px;
 }
 
 .gift-banner__graphics {
@@ -117,9 +107,10 @@
   max-width: none;
 }
 
-/* Coordinates below match the actual Figma frame (measured from the
-   exported reference, not guessed): top illustration starts flush at the
-   top-left of the 1440px box, bottom illustration sits at left:550 / top:378. */
+/* Exact Figma coordinates (measured relative to the hero, i.e. the page-level
+   "Top" value minus the 64px top bar height): top illustration is full-width
+   and flush with the top of the hero; bottom illustration sits at
+   left:550 / top:378. */
 .gift-banner__frame--top {
   top: 0;
   left: 0;
@@ -133,9 +124,11 @@
 }
 
 .gift-banner__content {
-  position: relative;
-  z-index: 3;
-  max-width: 500px;
+  position: absolute;
+  z-index: 2;
+  left: 67px;
+  top: 489px;
+  width: 483px;
 }
 
 .gift-banner__title {
@@ -148,7 +141,7 @@
 }
 
 .gift-banner__description {
-  margin-top: 32px;
+  margin-top: 50px;
   max-width: 483px;
 }
 
@@ -161,7 +154,7 @@
 }
 
 .gift-banner__button {
-  margin-top: 40px;
+  margin-top: 50px;
   width: 220px;
   height: 50px;
 
@@ -215,7 +208,8 @@
   font-family: "Jost", sans-serif;
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: 0.02em;
+  line-height: 13.42px;
+  letter-spacing: 0;
   color: #000;
 }
 
@@ -228,8 +222,10 @@
     min-height: 680px;
   }
 
-  .gift-banner .gift-banner__page-width {
-    padding: 0 40px 60px;
+  .gift-banner__content {
+    left: 40px;
+    top: 380px;
+    width: 420px;
   }
 
   .gift-banner__title {
@@ -269,11 +265,7 @@
 
   .gift-banner__hero-inner {
     min-height: auto;
-    padding-top: 60px;
-  }
-
-  .gift-banner .gift-banner__page-width {
-    padding: 0 24px 60px;
+    padding: 60px 24px 60px;
   }
 
   .gift-banner__graphics {
@@ -282,6 +274,14 @@
 
   .gift-banner__frame--bottom {
     display: none;
+  }
+
+  .gift-banner__content {
+    position: static;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   .gift-banner__content {
