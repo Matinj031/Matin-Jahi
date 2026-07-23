@@ -1,28 +1,89 @@
-<section class="custom-banner">
+{{ 'banner.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'banner.js' | asset_url }}" defer></script>
 
-  <div class="custom-banner__content">
+<section class="banner">
+  <div class="page-width">
 
-    <h1>
-      Banner Title
-    </h1>
+    <div class="banner__content">
 
-    <p>
-      Banner Description
-    </p>
+      <p class="banner__eyebrow">
+        {{ section.settings.eyebrow }}
+      </p>
 
-    <a href="#">
-      Button
-    </a>
+      <h1 class="banner__title">
+        {{ section.settings.heading }}
+      </h1>
+
+      <div class="banner__description">
+        {{ section.settings.description }}
+      </div>
+
+      <a
+        href="{{ section.settings.button_link }}"
+        class="banner__button"
+      >
+        {{ section.settings.button_text }}
+      </a>
+
+    </div>
+
+    <div class="banner__media">
+
+      {% if section.settings.hero_image != blank %}
+        {{
+          section.settings.hero_image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            class: 'banner__image'
+        }}
+      {% endif %}
+
+    </div>
 
   </div>
-
 </section>
 
 
 {% schema %}
 {
   "name": "Banner",
-  "settings": [],
+    "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Discover joy: Your ultimate holiday gift destination.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    }
+  ],
   "presets": [
     {
       "name": "Banner"

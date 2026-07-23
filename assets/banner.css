@@ -1,0 +1,29 @@
+.banner {
+  padding: 4rem 0;
+}
+
+.banner .page-width {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.banner__content {
+  flex: 1;
+}
+
+.banner__media {
+  flex: 1;
+}
+
+.banner__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.banner__button {
+  display: inline-flex;
+  margin-top: 2rem;
+}
