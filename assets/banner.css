@@ -1,53 +1,222 @@
 .banner {
-  padding: 96px 0;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  min-height: 780px;
 }
 
 .banner .page-width {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 80px;
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 120px 67px 80px;
+}
+
+.banner__graphics {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner__frame {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.banner__frame--top {
+  top: 0;
+  right: -40px;
+  width: 1390px;
+}
+
+.banner__frame--bottom {
+  right: 140px;
+  bottom: 70px;
+  width: 890px;
 }
 
 .banner__content {
-  max-width: 520px;
+  position: relative;
+  z-index: 3;
+  max-width: 500px;
 }
 
 .banner__eyebrow {
-  margin: 0 0 20px;
+  margin: 0 0 24px;
+  font-family: "Jost", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #000;
 }
 
 .banner__title {
-  margin: 0 0 24px;
+  margin: 0;
+  font-family: "Jost", sans-serif;
+  font-size: 70px;
+  font-weight: 500;
+  line-height: 1;
+  color: #000;
 }
 
 .banner__description {
-  margin-bottom: 40px;
+  margin-top: 32px;
+  max-width: 483px;
 }
 
-.banner__media {
-  display: flex;
+.banner__description p {
+  margin: 0 0 16px;
+  font-family: "Jost", sans-serif;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.banner__button {
+  margin-top: 40px;
+  width: 220px;
+  height: 50px;
+
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  gap: 14px;
+
+  background: #000;
+  color: #fff;
+
+  text-decoration: none;
+  text-transform: uppercase;
+
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  box-shadow: 0 2px 2px rgba(0,0,0,.2);
+
+  transition:
+    background .3s ease,
+    color .3s ease,
+    transform .3s ease;
 }
 
-.banner__image {
-  width: 100%;
-  max-width: 620px;
-  height: auto;
-  display: block;
+.banner__button:hover {
+  background: #222;
+  transform: translateY(-2px);
+}
+
+.banner__button-icon {
+  transition: transform .3s ease;
+}
+
+.banner__button:hover .banner__button-icon {
+  transform: translateX(6px);
 }
 
 
-@media screen and (max-width: 990px) {
+/* ---------- Tablet ---------- */
 
-  .banner .page-width {
-    grid-template-columns: 1fr;
-    gap: 48px;
-    text-align: center;
-  }
+@media (max-width:1200px){
 
-  .banner__content {
-    max-width: none;
-  }
+.banner{
+min-height:680px;
+}
+
+.banner .page-width{
+padding:90px 40px;
+}
+
+.banner__title{
+font-size:58px;
+}
+
+.banner__description p{
+font-size:18px;
+}
+
+.banner__frame--top{
+width:1100px;
+right:-120px;
+}
+
+.banner__frame--bottom{
+width:720px;
+right:70px;
+}
+
+}
+
+
+/* ---------- Mobile ---------- */
+
+@media (max-width:768px){
+
+.banner{
+min-height:auto;
+}
+
+.banner .page-width{
+padding:60px 24px;
+}
+
+.banner__graphics{
+opacity:.18;
+}
+
+.banner__frame--top{
+width:720px;
+top:20px;
+right:-250px;
+}
+
+.banner__frame--bottom{
+display:none;
+}
+
+.banner__content{
+max-width:100%;
+}
+
+.banner__eyebrow{
+font-size:18px;
+}
+
+.banner__title{
+font-size:48px;
+}
+
+.banner__description{
+max-width:100%;
+}
+
+.banner__description p{
+font-size:18px;
+}
+
+.banner__button{
+width:100%;
+max-width:220px;
+}
+
+}
+
+
+/* ---------- Small phones ---------- */
+
+@media (max-width:480px){
+
+.banner__title{
+font-size:40px;
+}
+
+.banner__description p{
+font-size:16px;
+}
+
+.banner__eyebrow{
+font-size:16px;
+}
 
 }
