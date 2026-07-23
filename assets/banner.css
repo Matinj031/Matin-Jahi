@@ -89,6 +89,7 @@
   position: relative;
   width: 100%;
   min-height: 814px;
+  margin: 0 auto;
 }
 
 .gift-banner__graphics {
