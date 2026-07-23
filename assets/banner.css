@@ -78,9 +78,20 @@
 
 .gift-banner__hero {
   position: relative;
-  overflow: hidden;
   background: #ffffff;
+}
+
+/* This is the box everything (graphics + text) is positioned relative to.
+   Capping it at 1440px — the exact width of the Figma frame — is what
+   keeps the illustrations from drifting past their intended spot on
+   screens wider than the design. */
+.gift-banner__hero-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1440px;
   min-height: 780px;
+  margin: 0 auto;
 
   display: flex;
   align-items: flex-end;
@@ -90,8 +101,6 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   padding: 0 67px 80px;
 }
 
@@ -108,15 +117,18 @@
   max-width: none;
 }
 
+/* Coordinates below match the actual Figma frame (measured from the
+   exported reference, not guessed): top illustration starts flush at the
+   top-left of the 1440px box, bottom illustration sits at left:550 / top:378. */
 .gift-banner__frame--top {
   top: 0;
-  right: -40px;
-  width: 1390px;
+  left: 0;
+  width: 100%;
 }
 
 .gift-banner__frame--bottom {
-  right: 140px;
-  bottom: 70px;
+  left: 550px;
+  top: 378px;
   width: 890px;
 }
 
@@ -212,7 +224,7 @@
    ========================================================================== */
 @media (max-width: 1200px) {
 
-  .gift-banner__hero {
+  .gift-banner__hero-inner {
     min-height: 680px;
   }
 
@@ -228,14 +240,10 @@
     font-size: 18px;
   }
 
-  .gift-banner__frame--top {
-    width: 1100px;
-    right: -120px;
-  }
-
   .gift-banner__frame--bottom {
     width: 720px;
-    right: 70px;
+    left: 460px;
+    top: 300px;
   }
 
 }
@@ -259,7 +267,7 @@
     font-size: 13px;
   }
 
-  .gift-banner__hero {
+  .gift-banner__hero-inner {
     min-height: auto;
     padding-top: 60px;
   }
@@ -270,12 +278,6 @@
 
   .gift-banner__graphics {
     opacity: .18;
-  }
-
-  .gift-banner__frame--top {
-    width: 720px;
-    top: 20px;
-    right: -250px;
   }
 
   .gift-banner__frame--bottom {
