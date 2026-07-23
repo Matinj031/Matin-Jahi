@@ -1,13 +1,13 @@
 {{ 'banner.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'banner.js' | asset_url }}" defer></script>
 
-<section class="banner">
+<section class="gift-banner">
 
-  <div class="banner__graphics" aria-hidden="true">
+  <div class="gift-banner__graphics" aria-hidden="true">
     <img
       src="{{ 'Frame.svg' | asset_url }}"
       alt=""
-      class="banner__frame banner__frame--top"
+      class="gift-banner__frame gift-banner__frame--top"
       loading="eager"
       width="1390"
       height="390"
@@ -16,37 +16,37 @@
     <img
       src="{{ 'Frame2.svg' | asset_url }}"
       alt=""
-      class="banner__frame banner__frame--bottom"
+      class="gift-banner__frame gift-banner__frame--bottom"
       loading="eager"
       width="890"
       height="402"
     >
   </div>
 
-  <div class="page-width">
+  <div class="gift-banner__page-width">
 
-    <div class="banner__content">
+    <div class="gift-banner__content">
 
-      <p class="banner__eyebrow">
+      <p class="gift-banner__eyebrow">
         {{ section.settings.eyebrow }}
       </p>
 
-      <h1 class="banner__title">
+      <h1 class="gift-banner__title">
         {{ section.settings.heading }}
       </h1>
 
-      <div class="banner__description rte">
+      <div class="gift-banner__description rte">
         {{ section.settings.description }}
       </div>
 
       <a
         href="{{ section.settings.button_link }}"
-        class="banner__button"
+        class="gift-banner__button"
       >
         <span>{{ section.settings.button_text }}</span>
 
         <svg
-          class="banner__button-icon"
+          class="gift-banner__button-icon"
           width="18"
           height="12"
           viewBox="0 0 18 12"
@@ -74,7 +74,7 @@
 {
   "name": "Banner",
   "tag": "section",
-  "class": "section-banner",
+  "class": "section-gift-banner",
   "settings": [
     {
       "type": "text",
