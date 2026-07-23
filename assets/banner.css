@@ -88,7 +88,6 @@
 .gift-banner__hero-inner {
   position: relative;
   width: 100%;
-  max-width: fit;
   min-height: 814px;
   margin: 0 auto;
 }
