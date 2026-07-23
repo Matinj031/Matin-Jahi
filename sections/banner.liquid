@@ -6,6 +6,30 @@
   {%- comment -%} ===== Top bar: logo + announcement + Choose Gift button ===== {%- endcomment -%}
   <div class="gift-banner__topbar">
     <div class="gift-banner__topbar-inner">
+    <button
+      type="button"
+      class="gift-banner__mobile-menu"
+      aria-expanded="false"
+      aria-controls="gift-banner-mobile-panel-{{ section.id }}"
+    >
+      <span class="visually-hidden">Toggle gift details</span>
+      <svg
+        width="18"
+        height="16"
+        viewBox="0 0 18 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M1 .5h15.71M1 8h15.71M1 15h15.71"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
     <a href="{{ routes.root_url }}" class="gift-banner__logo" aria-label="{{ shop.name }}">
       {%- if section.settings.logo != blank -%}
         <img
@@ -48,6 +72,41 @@
         </svg>
       </a>
     {%- endif -%}
+    </div>
+
+    <div
+      id="gift-banner-mobile-panel-{{ section.id }}"
+      class="gift-banner__mobile-panel"
+      hidden
+    >
+      {%- if section.settings.announcement_text != blank -%}
+        <p class="gift-banner__mobile-panel-text">{{ section.settings.announcement_text }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.announcement_button_text != blank -%}
+        <a
+          href="{{ section.settings.announcement_button_link | default: '#' }}"
+          class="gift-banner__mobile-panel-button"
+        >
+          <span>{{ section.settings.announcement_button_text }}</span>
+          <svg
+            width="18"
+            height="12"
+            viewBox="0 0 18 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M1 6H16M16 6L11 1M16 6L11 11"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      {%- endif -%}
     </div>
   </div>
 

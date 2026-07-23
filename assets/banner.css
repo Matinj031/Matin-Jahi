@@ -1,15 +1,17 @@
-/* ==========================================================================
-   Fonts — Jost (matches the Figma design; the theme's default fonts don't
-   include it, so we load it here to avoid a system-font fallback that
-   renders taller and breaks the pixel-perfect layout).
-   ========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap");
 
-/* ==========================================================================
-   Top bar
-   ========================================================================== */
-.gift-banner__topbar {
+.gift-banner {
+  position: relative;
+}
+
+.gift-banner__topbar,
+.gift-banner__strip {
   background: #f5f5f5;
+}
+
+.gift-banner__topbar {
+  position: relative;
+  z-index: 5;
 }
 
 .gift-banner__topbar-inner {
@@ -17,114 +19,157 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 10px 50px;
   max-width: 1440px;
   margin: 0 auto;
+  padding: 10px 50px;
+}
+
+.gift-banner__mobile-menu,
+.gift-banner__mobile-panel {
+  display: none;
+}
+
+.gift-banner__mobile-menu {
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  transition: opacity .25s ease;
+}
+
+.gift-banner__mobile-menu svg {
+  display: block;
 }
 
 .gift-banner__logo {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
   color: #000;
+  text-decoration: none;
   flex-shrink: 0;
 }
 
 .gift-banner__logo img {
-  height: 19px;
-  width: auto;
   display: block;
+  width: auto;
+  height: 19px;
 }
 
 .gift-banner__logo-text {
   font-family: "Jost", sans-serif;
-  font-weight: 600;
   font-size: 18px;
+  font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .gift-banner__announcement {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
+  color: #000;
+  text-align: center;
   font-family: "Jost", sans-serif;
   font-size: 16px;
   font-weight: 400;
-  text-align: center;
-  color: #000;
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
-.gift-banner__topbar-button {
+.gift-banner__topbar-button,
+.gift-banner__mobile-panel-button,
+.gift-banner__button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  height: 44px;
-  padding: 0 24px;
-  flex-shrink: 0;
-
-  position: relative;
   overflow: hidden;
   isolation: isolate;
-
-  background: #fff544;
-  color: #000;
-
   text-decoration: none;
   text-transform: uppercase;
-
-  font-family: "Jost", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-
   transition:
     color .3s ease,
-    transform .3s ease;
+    transform .3s ease,
+    opacity .3s ease;
 }
 
-.gift-banner__topbar-button::before {
+.gift-banner__topbar-button::before,
+.gift-banner__mobile-panel-button::before,
+.gift-banner__button::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: #000;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .35s ease;
 }
 
 .gift-banner__topbar-button span,
-.gift-banner__topbar-button svg {
+.gift-banner__topbar-button svg,
+.gift-banner__mobile-panel-button span,
+.gift-banner__mobile-panel-button svg,
+.gift-banner__button span,
+.gift-banner__button svg {
   position: relative;
   z-index: 1;
 }
 
-.gift-banner__topbar-button:hover {
-  color: #fff;
-  transform: translateY(-2px);
+.gift-banner__topbar-button {
+  gap: 10px;
+  height: 44px;
+  padding: 0 24px;
+  flex-shrink: 0;
+  background: #fff544;
+  color: #000;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
 
-.gift-banner__topbar-button:hover::before {
-  transform: scaleX(1);
+.gift-banner__topbar-button::before {
+  background: #000;
 }
 
-/* ==========================================================================
-   Banner / hero
-   ========================================================================== */
-.gift-banner {
-  position: relative;
+.gift-banner__mobile-panel {
+  padding: 0 16px 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.gift-banner__mobile-panel-text {
+  margin: 0 0 14px;
+  color: #000;
+  text-align: center;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.gift-banner__mobile-panel-button {
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  background: #fff544;
+  color: #000;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.gift-banner__mobile-panel-button::before {
+  background: #000;
 }
 
 .gift-banner__hero {
   position: relative;
-  background: #ffffff;
+  background: #fff;
 }
 
-/* This is the box everything (graphics + text) is positioned relative to.
-   Capping it at 1440px — the exact width of the Figma frame — is what
-   keeps the illustrations from drifting past their intended spot on
-   screens wider than the design. */
 .gift-banner__hero-inner {
   position: relative;
   width: 100%;
@@ -150,34 +195,29 @@
   height: 100%;
 }
 
-/* The content block spans the exact Figma coordinate space so each child can
-   be placed at its precise (x, y). x:67 is shared by all three elements, so it
-   lives on the container; the y-offsets sit on the children. */
 .gift-banner__content {
   position: absolute;
   z-index: 2;
-  left: 67px;
   top: 0;
+  left: 67px;
   width: 483px;
   height: 780px;
 }
 
-/* Figma: x67 y425, 459x70, Jost Medium 500, 70px / 1em */
 .gift-banner__title {
   position: absolute;
   top: 425px;
   left: 0;
-  margin: 0;
   width: auto;
+  margin: 0;
+  color: #000;
   white-space: nowrap;
   font-family: "Jost", sans-serif;
   font-size: 70px;
   font-weight: 500;
   line-height: 1;
-  color: #000;
 }
 
-/* Figma: x67 y545, 483x84, Jost Regular 400, 20px / 1.4em */
 .gift-banner__description {
   position: absolute;
   top: 545px;
@@ -188,104 +228,101 @@
 
 .gift-banner__description p {
   margin: 0;
+  color: #000;
   font-family: "Jost", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 1.4;
-  color: #000;
 }
 
-/* Figma: x67 y679, 220x50, Jost Regular 400, 16px, UPPER */
+.gift-banner__description p + p {
+  margin-top: 12px;
+}
+
 .gift-banner__button {
   position: absolute;
   top: 679px;
   left: 0;
   width: 220px;
   height: 50px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: 14px;
-
-  overflow: hidden;
-  isolation: isolate;
-
   background: #000;
   color: #fff;
-
-  text-decoration: none;
-  text-transform: uppercase;
-
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
   font-family: "Jost", sans-serif;
   font-size: 16px;
   font-weight: 400;
-
-  box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
-
-  transition:
-    color .3s ease,
-    transform .3s ease;
 }
 
 .gift-banner__button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
   background: #fff544;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .35s ease;
-}
-
-.gift-banner__button span,
-.gift-banner__button svg {
-  position: relative;
-  z-index: 1;
-}
-
-.gift-banner__button:hover {
-  color: #000;
-  transform: translateY(-2px);
-}
-
-.gift-banner__button:hover::before {
-  transform: scaleX(1);
 }
 
 .gift-banner__button-icon {
   transition: transform .3s ease;
 }
 
-.gift-banner__button:hover .gift-banner__button-icon {
-  transform: translateX(6px);
-}
-
-/* ==========================================================================
-   Bottom strip
-   ========================================================================== */
 .gift-banner__strip {
-  background: #f5f5f5;
   padding: 10px 50px;
   text-align: center;
 }
 
 .gift-banner__strip p {
   margin: 0;
+  color: #000;
   font-family: "Jost", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 13.42px;
   letter-spacing: 0;
-  color: #000;
 }
 
-/* ==========================================================================
-   Tablet
-   ========================================================================== */
-@media (max-width: 1200px) {
+@media (hover: hover) {
+  .gift-banner__topbar-button:hover,
+  .gift-banner__mobile-panel-button:hover {
+    color: #fff;
+    transform: translateY(-2px);
+  }
 
+  .gift-banner__topbar-button:hover::before,
+  .gift-banner__mobile-panel-button:hover::before,
+  .gift-banner__button:hover::before {
+    transform: scaleX(1);
+  }
+
+  .gift-banner__button:hover {
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  .gift-banner__button:hover .gift-banner__button-icon {
+    transform: translateX(6px);
+  }
+
+  .gift-banner__mobile-menu:hover {
+    opacity: .72;
+  }
+}
+
+.gift-banner__topbar-button:focus-visible,
+.gift-banner__mobile-panel-button:focus-visible,
+.gift-banner__button:focus-visible,
+.gift-banner__mobile-menu:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+.gift-banner__topbar-button:active,
+.gift-banner__mobile-panel-button:active,
+.gift-banner__button:active {
+  transform: translateY(1px);
+}
+
+.gift-banner__mobile-menu:active {
+  opacity: .6;
+}
+
+@media (max-width: 1200px) {
   .gift-banner__hero-inner {
     min-height: 680px;
   }
@@ -298,7 +335,6 @@
 
   .gift-banner__title {
     top: 360px;
-    width: auto;
     font-size: 58px;
   }
 
@@ -315,90 +351,150 @@
   .gift-banner__button {
     top: 590px;
   }
-
 }
 
-/* ==========================================================================
-   Mobile
-   ========================================================================== */
 @media (max-width: 768px) {
-
   .gift-banner__topbar-inner {
-    flex-wrap: wrap;
+    position: relative;
     justify-content: center;
-    text-align: center;
-    padding: 14px 24px;
-    gap: 12px;
+    min-height: 58px;
+    padding: 13px 16px 12px;
+    gap: 0;
   }
 
-  .gift-banner__announcement {
-    order: 3;
-    flex: 1 1 100%;
-    font-size: 13px;
+  .gift-banner__mobile-menu {
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    display: inline-flex;
+    transform: translateY(-50%);
+  }
+
+  .gift-banner__logo {
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .gift-banner__logo img {
+    height: 20px;
+  }
+
+  .gift-banner__logo-text {
+    font-size: 19px;
+    letter-spacing: 0.06em;
+  }
+
+  .gift-banner__announcement,
+  .gift-banner__topbar-button {
+    display: none;
+  }
+
+  .gift-banner.is-mobile-panel-open .gift-banner__mobile-panel {
+    display: block;
+  }
+
+  .gift-banner__hero {
+    background: #f2f2f2;
   }
 
   .gift-banner__hero-inner {
-    min-height: auto;
-    padding: 60px 24px 60px;
+    min-height: 449px;
+    padding: 40px 16px 20px;
+    overflow: hidden;
   }
 
   .gift-banner__graphics {
-    opacity: .18;
+    opacity: 1;
+  }
+
+  .gift-banner__illustration {
+    top: auto;
+    bottom: 17px;
+    left: 50%;
+    width: clamp(580px, 186vw, 700px);
+    height: auto;
+    max-width: none;
+    transform: translateX(-50%);
   }
 
   .gift-banner__content {
-    position: static;
-    left: auto;
+    position: relative;
     top: auto;
-    width: 100%;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, 292px);
     height: auto;
-    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .gift-banner__title,
+  .gift-banner__description,
+  .gift-banner__button {
+    position: relative;
+    top: auto;
+    left: auto;
   }
 
   .gift-banner__title {
-    position: static;
-    top: auto;
     width: 100%;
-    font-size: 48px;
+    white-space: normal;
+    font-size: clamp(3.4rem, 9.6vw, 4.2rem);
+    line-height: 1.12;
   }
 
   .gift-banner__description {
-    position: static;
-    top: auto;
     width: 100%;
-    max-width: 100%;
-    margin-top: 24px;
+    max-width: 270px;
+    margin-top: 14px;
   }
 
   .gift-banner__description p {
-    font-size: 18px;
+    font-size: clamp(1.7rem, 4.3vw, 2rem);
+    line-height: 1.18;
+  }
+
+  .gift-banner__description p + p {
+    display: none;
   }
 
   .gift-banner__button {
-    position: static;
-    top: auto;
-    width: 100%;
-    max-width: 220px;
-    margin-top: 32px;
+    width: 209px;
+    max-width: 100%;
+    height: 42px;
+    margin-top: 168px;
+    gap: 18px;
+    font-size: 16px;
+    box-shadow: none;
   }
 
   .gift-banner__strip {
-    padding: 10px 24px;
+    padding: 9px 16px 10px;
   }
 
+  .gift-banner__strip p {
+    max-width: 290px;
+    margin: 0 auto;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
 }
 
-/* ==========================================================================
-   Small phones
-   ========================================================================== */
-@media (max-width: 480px) {
-
-  .gift-banner__title {
-    font-size: 40px;
+@media (max-width: 359px) {
+  .gift-banner__hero-inner {
+    min-height: 420px;
   }
 
-  .gift-banner__description p {
-    font-size: 16px;
+  .gift-banner__illustration {
+    width: 170vw;
+    bottom: 14px;
   }
 
+  .gift-banner__button {
+    margin-top: 150px;
+    width: 192px;
+  }
 }
