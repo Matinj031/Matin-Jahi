@@ -64,6 +64,10 @@
   padding: 0 24px;
   flex-shrink: 0;
 
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
   background: #fff544;
   color: #000;
 
@@ -74,11 +78,35 @@
   font-size: 16px;
   font-weight: 400;
 
-  transition: transform .3s ease;
+  transition:
+    color .3s ease,
+    transform .3s ease;
+}
+
+.gift-banner__topbar-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease;
+}
+
+.gift-banner__topbar-button span,
+.gift-banner__topbar-button svg {
+  position: relative;
+  z-index: 1;
 }
 
 .gift-banner__topbar-button:hover {
+  color: #fff;
   transform: translateY(-2px);
+}
+
+.gift-banner__topbar-button:hover::before {
+  transform: scaleX(1);
 }
 
 /* ==========================================================================
@@ -180,6 +208,9 @@
   justify-content: center;
   gap: 14px;
 
+  overflow: hidden;
+  isolation: isolate;
+
   background: #000;
   color: #fff;
 
@@ -193,14 +224,34 @@
   box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
 
   transition:
-    background .3s ease,
     color .3s ease,
     transform .3s ease;
 }
 
+.gift-banner__button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #fff544;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease;
+}
+
+.gift-banner__button span,
+.gift-banner__button svg {
+  position: relative;
+  z-index: 1;
+}
+
 .gift-banner__button:hover {
-  background: #222;
+  color: #000;
   transform: translateY(-2px);
+}
+
+.gift-banner__button:hover::before {
+  transform: scaleX(1);
 }
 
 .gift-banner__button-icon {
