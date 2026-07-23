@@ -5,6 +5,7 @@
 
   {%- comment -%} ===== Top bar: logo + announcement + Choose Gift button ===== {%- endcomment -%}
   <div class="gift-banner__topbar">
+    <div class="gift-banner__topbar-inner">
     <a href="{{ routes.root_url }}" class="gift-banner__logo" aria-label="{{ shop.name }}">
       {%- if section.settings.logo != blank -%}
         <img
@@ -47,6 +48,7 @@
         </svg>
       </a>
     {%- endif -%}
+    </div>
   </div>
 
   {%- comment -%} ===== Hero: illustration + heading + description + Shop Now ===== {%- endcomment -%}
@@ -62,20 +64,12 @@
 
       <div class="gift-banner__graphics" aria-hidden="true">
         <img
-          src="{{ 'Frame.svg' | asset_url }}"
+          src="{{ 'gift-illustration.svg' | asset_url }}"
           alt=""
-          class="gift-banner__frame gift-banner__frame--top"
+          class="gift-banner__illustration"
           loading="eager"
           width="1440"
-          height="390"
-        >
-        <img
-          src="{{ 'Frame2.svg' | asset_url }}"
-          alt=""
-          class="gift-banner__frame gift-banner__frame--bottom"
-          loading="eager"
-          width="890"
-          height="402"
+          height="780"
         >
       </div>
 

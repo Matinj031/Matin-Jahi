@@ -1,13 +1,25 @@
 /* ==========================================================================
+   Fonts — Jost (matches the Figma design; the theme's default fonts don't
+   include it, so we load it here to avoid a system-font fallback that
+   renders taller and breaks the pixel-perfect layout).
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap");
+
+/* ==========================================================================
    Top bar
    ========================================================================== */
 .gift-banner__topbar {
+  background: #f5f5f5;
+}
+
+.gift-banner__topbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding: 10px 50px;
-  background: #f5f5f5;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .gift-banner__logo {
@@ -90,7 +102,7 @@
   overflow: hidden;
   width: 100%;
   max-width: 1440px;
-  min-height: 814px;
+  min-height: 780px;
   margin: 0 auto;
 }
 
@@ -101,38 +113,35 @@
   z-index: 1;
 }
 
-.gift-banner__frame {
+.gift-banner__illustration {
   position: absolute;
-  display: block;
-  max-width: none;
-}
-
-/* Exact Figma coordinates (measured relative to the hero, i.e. the page-level
-   "Top" value minus the 64px top bar height): top illustration is full-width
-   and flush with the top of the hero; bottom illustration sits at
-   left:550 / top:378. */
-.gift-banner__frame--top {
   top: 0;
   left: 0;
+  display: block;
   width: 100%;
+  height: 100%;
 }
 
-.gift-banner__frame--bottom {
-  left: 550px;
-  top: 378px;
-  width: 890px;
-}
-
+/* The content block spans the exact Figma coordinate space so each child can
+   be placed at its precise (x, y). x:67 is shared by all three elements, so it
+   lives on the container; the y-offsets sit on the children. */
 .gift-banner__content {
   position: absolute;
   z-index: 2;
   left: 67px;
-  top: 489px;
+  top: 0;
   width: 483px;
+  height: 780px;
 }
 
+/* Figma: x67 y425, 459x70, Jost Medium 500, 70px / 1em */
 .gift-banner__title {
+  position: absolute;
+  top: 425px;
+  left: 0;
   margin: 0;
+  width: auto;
+  white-space: nowrap;
   font-family: "Jost", sans-serif;
   font-size: 70px;
   font-weight: 500;
@@ -140,21 +149,29 @@
   color: #000;
 }
 
+/* Figma: x67 y545, 483x84, Jost Regular 400, 20px / 1.4em */
 .gift-banner__description {
-  margin-top: 50px;
+  position: absolute;
+  top: 545px;
+  left: 0;
+  width: 483px;
   max-width: 483px;
 }
 
 .gift-banner__description p {
-  margin: 0 0 16px;
+  margin: 0;
   font-family: "Jost", sans-serif;
   font-size: 20px;
+  font-weight: 400;
   line-height: 1.4;
   color: #000;
 }
 
+/* Figma: x67 y679, 220x50, Jost Regular 400, 16px, UPPER */
 .gift-banner__button {
-  margin-top: 50px;
+  position: absolute;
+  top: 679px;
+  left: 0;
   width: 220px;
   height: 50px;
 
@@ -224,22 +241,28 @@
 
   .gift-banner__content {
     left: 40px;
-    top: 380px;
     width: 420px;
+    height: 680px;
   }
 
   .gift-banner__title {
+    top: 360px;
+    width: auto;
     font-size: 58px;
+  }
+
+  .gift-banner__description {
+    top: 470px;
+    width: 420px;
+    max-width: 420px;
   }
 
   .gift-banner__description p {
     font-size: 18px;
   }
 
-  .gift-banner__frame--bottom {
-    width: 720px;
-    left: 460px;
-    top: 300px;
+  .gift-banner__button {
+    top: 590px;
   }
 
 }
@@ -249,7 +272,7 @@
    ========================================================================== */
 @media (max-width: 768px) {
 
-  .gift-banner__topbar {
+  .gift-banner__topbar-inner {
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
@@ -272,28 +295,28 @@
     opacity: .18;
   }
 
-  .gift-banner__frame--bottom {
-    display: none;
-  }
-
   .gift-banner__content {
     position: static;
     left: auto;
     top: auto;
     width: 100%;
-    max-width: 100%;
-  }
-
-  .gift-banner__content {
+    height: auto;
     max-width: 100%;
   }
 
   .gift-banner__title {
+    position: static;
+    top: auto;
+    width: 100%;
     font-size: 48px;
   }
 
   .gift-banner__description {
+    position: static;
+    top: auto;
+    width: 100%;
     max-width: 100%;
+    margin-top: 24px;
   }
 
   .gift-banner__description p {
@@ -301,8 +324,11 @@
   }
 
   .gift-banner__button {
+    position: static;
+    top: auto;
     width: 100%;
     max-width: 220px;
+    margin-top: 32px;
   }
 
   .gift-banner__strip {
