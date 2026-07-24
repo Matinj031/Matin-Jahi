@@ -100,9 +100,9 @@
   text-decoration: none;
   text-transform: uppercase;
   transition:
-    color .3s ease,
-    transform .3s ease,
-    opacity .3s ease;
+    color .1s ease,
+    transform .2s ease,
+    opacity .2s ease;
 }
 
 .gift-banner__topbar-button::before,
@@ -136,6 +136,7 @@
   color: #000;
   font-family: "Jost", sans-serif;
   font-size: 16px;
+  line-height: 20.5;
   font-weight: 400;
 }
 
@@ -306,9 +307,6 @@
     color: #000;
   }
 
-  .gift-banner__button:hover .gift-banner__button-icon {
-    transform: translateX(6px);
-  }
 
   .gift-banner__mobile-menu:hover {
     opacity: .72;
