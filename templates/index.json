@@ -144,7 +144,8 @@
         "tile_xYH9AM": {
           "type": "tile",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/young-female-models-denim_925x_4bcb7bd4-c072-47be-9751-9118d09fd15a.jpg",
+            "product": "dark-denim-top",
             "hotspot_x": 76,
             "hotspot_y": 39
           }
