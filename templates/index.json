@@ -115,7 +115,8 @@
         "tile_edYiFE": {
           "type": "tile",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
+            "product": "blue-silk-tuxedo",
             "hotspot_x": 85,
             "hotspot_y": 53
           }
