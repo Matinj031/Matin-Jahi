@@ -96,12 +96,12 @@
 .gift-popup__box {
   position: relative;
   z-index: 1;
-  width: 311px;
+  width: 330px;
   max-width: 100%;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
   background: #ffffff;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   padding: 20px;
   padding-block: 35px;
 }
@@ -111,7 +111,7 @@
   top: 16px;
   right: 16px;
   width: 17px;
-  height: 17px;
+  height: 60px;
   padding: 0;
   border: none;
   background: none;
@@ -138,9 +138,9 @@
 .gift-popup__product-title {
   margin: 0 0 8px;
   font-family: "Jost", sans-serif;
-  font-weight: 300;
+  font-weight: 100;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 120%;
   color: #000;
 }
 
@@ -148,18 +148,26 @@
   margin: 0 0 8px;
   font-family: "Lustria", serif;
   font-size: 16px;
-  line-height: 1.2;
+  font-weight: normal;
+  line-height: 120%;
   color: #000;
 }
 
 .gift-popup__description {
   margin: 0;
   font-family: "Jost", sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   font-size: 14px;
-  line-height: 1.1;
-  letter-spacing: -0.14px;
+  line-height: 110%;
+  letter-spacing: -1%;
   color: #000;
+}
+
+.gift-popup__info{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* ==========================================================================
