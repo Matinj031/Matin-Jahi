@@ -1,0 +1,152 @@
+{%- doc -%}
+  "Tisso vison in the wild" — a 6-image grid where each image has a '+'
+  hotspot. Clicking it opens a quick-view popup (see snippets/gift-product-popup.liquid)
+  with dynamically rendered color/size options and a working Add to Cart.
+{%- enddoc -%}
+
+{{ 'gift-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'gift-grid.js' | asset_url }}" defer></script>
+
+<section
+  class="gift-grid-section"
+  data-gift-grid
+  data-bundle-enabled="{{ section.settings.enable_bundle }}"
+  data-bundle-variant-id="{{ section.settings.bundle_product.selected_or_first_available_variant.id }}"
+  data-bundle-trigger-options="{{ section.settings.bundle_trigger_options | strip_newlines | strip }}"
+>
+  {%- if section.settings.heading != blank -%}
+    <h2 class="gift-grid__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="gift-grid__grid">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign tile_product = block.settings.product
+      -%}
+      <div class="gift-grid__tile" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img
+            src="{{ block.settings.image | image_url: width: 866 }}"
+            srcset="{{ block.settings.image | image_url: width: 433 }} 433w, {{ block.settings.image | image_url: width: 866 }} 866w"
+            sizes="(min-width: 990px) 433px, (min-width: 600px) 45vw, 90vw"
+            alt="{{ block.settings.image.alt | default: tile_product.title | escape }}"
+            width="433"
+            height="444"
+            loading="lazy"
+            class="gift-grid__tile-image"
+          >
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'gift-grid__tile-image' }}
+        {%- endif -%}
+
+        {%- if tile_product != blank -%}
+          <button
+            type="button"
+            class="gift-grid__hotspot"
+            style="left:{{ block.settings.hotspot_x }}%; top:{{ block.settings.hotspot_y }}%;"
+            data-popup-trigger="gift-popup-{{ block.id }}"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-label="Show details for {{ tile_product.title | escape }}"
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+
+          {%- render 'gift-product-popup', product: tile_product, block_id: block.id -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gift grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tisso vison in the wild"
+    },
+    {
+      "type": "header",
+      "content": "Soft Winter Jacket bundle rule"
+    },
+    {
+      "type": "paragraph",
+      "content": "When a shopper adds any grid product with a Black + Medium variant selected, this product is added to the cart automatically."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_bundle",
+      "label": "Enable auto-bundle rule",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle product",
+      "info": "Select \"Soft Winter Jacket\""
+    },
+    {
+      "type": "text",
+      "id": "bundle_trigger_options",
+      "label": "Trigger option values",
+      "default": "black,medium",
+      "info": "Comma-separated, lowercase. If the selected variant's option values include ALL of these, the bundle product is added too."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Grid tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Lifestyle photo"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_x",
+          "label": "Hotspot horizontal position",
+          "min": 0,
+          "max": 100,
+          "step": 0.5,
+          "unit": "%",
+          "default": 60
+        },
+        {
+          "type": "range",
+          "id": "hotspot_y",
+          "label": "Hotspot vertical position",
+          "min": 0,
+          "max": 100,
+          "step": 0.5,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift grid",
+      "blocks": [
+        { "type": "tile", "settings": { "hotspot_x": 61.8, "hotspot_y": 56.1 } },
+        { "type": "tile", "settings": { "hotspot_x": 84.6, "hotspot_y": 52.5 } },
+        { "type": "tile", "settings": { "hotspot_x": 62.8, "hotspot_y": 20.9 } },
+        { "type": "tile", "settings": { "hotspot_x": 72.2, "hotspot_y": 18.5 } },
+        { "type": "tile", "settings": { "hotspot_x": 51.6, "hotspot_y": 25.9 } },
+        { "type": "tile", "settings": { "hotspot_x": 76.3, "hotspot_y": 39.4 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

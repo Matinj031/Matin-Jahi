@@ -1,0 +1,356 @@
+/* ==========================================================================
+   Section / grid
+   ========================================================================== */
+.gift-grid-section {
+  max-width: 1337px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+
+.gift-grid__heading {
+  font-family: "Lustria", serif;
+  font-size: 36px;
+  line-height: 1.2;
+  margin: 0 0 30px;
+  color: #000;
+}
+
+.gift-grid__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.gift-grid__tile {
+  position: relative;
+  aspect-ratio: 433 / 444;
+  overflow: hidden;
+}
+
+.gift-grid__tile-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ==========================================================================
+   "+" hotspot
+   ========================================================================== */
+.gift-grid__hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  color: #000;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.gift-grid__hotspot:hover,
+.gift-grid__hotspot:focus-visible {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.gift-grid__hotspot:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Popup — fixed centered modal with dimmed backdrop, matching the
+   Figma prototype (not a tooltip anchored to the hotspot).
+   ========================================================================== */
+.gift-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.gift-popup[hidden] {
+  display: none;
+}
+
+.gift-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.gift-popup__box {
+  position: relative;
+  z-index: 1;
+  width: 311px;
+  max-width: 100%;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #ffffff;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.gift-popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-popup__top {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+}
+
+.gift-popup__image img {
+  display: block;
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.gift-popup__product-title {
+  margin: 0 0 8px;
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #000;
+}
+
+.gift-popup__price {
+  margin: 0 0 8px;
+  font-family: "Lustria", serif;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #000;
+}
+
+.gift-popup__description {
+  margin: 0;
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.1;
+  letter-spacing: -0.14px;
+  color: #000;
+}
+
+/* ==========================================================================
+   Option rows (color / size) — built dynamically by gift-grid.js
+   ========================================================================== */
+.gift-popup__options {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gift-option {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gift-option__label {
+  margin: 0;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  line-height: 1.3;
+  color: #333;
+}
+
+/* Color option: a single bordered row split evenly between values,
+   selected value gets a colored bottom border. */
+.gift-option__swatches {
+  display: flex;
+  border: 0.5px solid #000;
+}
+
+.gift-option__swatch {
+  flex: 1 1 0;
+  padding: 10px 8px;
+  border: none;
+  border-right: 0.5px solid #000;
+  background: #fff;
+  font-family: "Jost", sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.36px;
+  text-transform: capitalize;
+  color: #000;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: border-bottom-color 0.15s ease;
+}
+
+.gift-option__swatch:last-child {
+  border-right: none;
+}
+
+.gift-option__swatch[aria-pressed="true"] {
+  border-bottom-color: var(--gift-swatch-color, #000);
+  font-weight: 500;
+}
+
+.gift-option__swatch[disabled] {
+  color: #bbb;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Size option: a single trigger button that expands into a list */
+.gift-option__dropdown {
+  position: relative;
+}
+
+.gift-option__dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 0.5px solid #000;
+  background: #fff;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  color: #000;
+  cursor: pointer;
+}
+
+.gift-option__dropdown-trigger svg {
+  transition: transform 0.15s ease;
+}
+
+.gift-option__dropdown[data-open="true"] .gift-option__dropdown-trigger svg {
+  transform: rotate(180deg);
+}
+
+.gift-option__dropdown-list {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  background: #fff;
+  border: 0.5px solid #000;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.gift-option__dropdown[data-open="true"] .gift-option__dropdown-list {
+  display: block;
+}
+
+.gift-option__dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: none;
+  background: #fff;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+}
+
+.gift-option__dropdown-item:hover,
+.gift-option__dropdown-item[aria-selected="true"] {
+  background: #f5f5f5;
+}
+
+.gift-option__dropdown-item[disabled] {
+  color: #bbb;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* ==========================================================================
+   Error + Add to cart
+   ========================================================================== */
+.gift-popup__error {
+  margin: 10px 0 0;
+  font-family: "Jost", sans-serif;
+  font-size: 13px;
+  color: #b00020;
+}
+
+.gift-popup__add-to-cart {
+  margin-top: 16px;
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #000;
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.gift-popup__add-to-cart:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.gift-popup__add-to-cart[data-state="adding"] {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.gift-popup__add-icon {
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 989px) {
+  .gift-grid__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .gift-grid__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gift-popup__box {
+    width: 100%;
+  }
+}
