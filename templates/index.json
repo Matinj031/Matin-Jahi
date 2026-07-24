@@ -92,11 +92,86 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "gift_grid_WrzX4g": {
+      "type": "gift-grid",
+      "blocks": {
+        "tile_6CkGwa": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_cff5c769-e665-4b54-bd0c-f64ce5a3dabf.jpg",
+            "product": "black-leather-bag",
+            "hotspot_x": 62,
+            "hotspot_y": 56
+          }
+        },
+        "tile_edYiFE": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 64,
+            "hotspot_y": 53
+          }
+        },
+        "tile_YiDXKA": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/red-plaid-shirt_925x_06b1b3fe-83fc-41ee-92fa-1a1790b2c2d8.jpg",
+            "product": "chequered-red-shirt",
+            "hotspot_x": 63,
+            "hotspot_y": 21
+          }
+        },
+        "tile_z4xyYE": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/leather-jacket-and-tea_925x_36393496-fd4f-471d-a6db-6661fc9c9661.jpg",
+            "product": "classic-leather-jacket",
+            "hotspot_x": 72,
+            "hotspot_y": 19
+          }
+        },
+        "tile_eaxCD7": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/casual-fashion-woman_925x_eb93a173-f06f-4aba-81d6-d1ca57d7ccd6.jpg",
+            "product": "classic-varsity-top",
+            "hotspot_x": 52,
+            "hotspot_y": 26
+          }
+        },
+        "tile_xYH9AM": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/young-female-models-denim_925x_4bcb7bd4-c072-47be-9751-9118d09fd15a.jpg",
+            "product": "dark-denim-top",
+            "hotspot_x": 76,
+            "hotspot_y": 39
+          }
+        }
+      },
+      "block_order": [
+        "tile_6CkGwa",
+        "tile_edYiFE",
+        "tile_YiDXKA",
+        "tile_z4xyYE",
+        "tile_eaxCD7",
+        "tile_xYH9AM"
+      ],
+      "name": "Gift grid",
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "enable_bundle": true,
+        "bundle_product": "dark-winter-jacket",
+        "bundle_trigger_options": "black,medium"
+      }
     }
   },
   "order": [
     "banner_3X8j6f",
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "gift_grid_WrzX4g"
   ]
 }
