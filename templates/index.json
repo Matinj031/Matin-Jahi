@@ -135,7 +135,8 @@
         "tile_eaxCD7": {
           "type": "tile",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/casual-fashion-woman_925x_eb93a173-f06f-4aba-81d6-d1ca57d7ccd6.jpg",
+            "product": "classic-varsity-top",
             "hotspot_x": 52,
             "hotspot_y": 26
           }
