@@ -24,13 +24,6 @@
         "bottom_strip_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
       }
     },
-    "tisso_wild_MF4jkk": {
-      "type": "tisso-wild",
-      "name": "Tisso Wild",
-      "settings": {
-        "heading": "Tisso vison in the wild"
-      }
-    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -103,7 +96,6 @@
   },
   "order": [
     "banner_3X8j6f",
-    "tisso_wild_MF4jkk",
     "image_banner",
     "featured_collection"
   ]
