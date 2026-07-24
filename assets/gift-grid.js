@@ -75,10 +75,10 @@
     var optionsContainer = popup.querySelector('[data-popup-options]');
     var options = safeParseJSON(popup.dataset.options) || [];
     var variants = safeParseJSON(popup.dataset.variants) || [];
-    // Ordered list of the two configurable swatch colors from section
-    // settings: entry 0 colors the color option's first value, entry 1 the
-    // second value (see gift-product-popup.liquid / data-swatch-colors).
-    var swatchColors = safeParseJSON(popup.dataset.swatchColors) || [];
+    // Name-keyed map of configurable swatch colors from section settings:
+    // { "<color name lowercased>": "<hex>" }. Whichever option value matches
+    // a configured name gets that color (see gift-product-popup.liquid).
+    var colorMap = safeParseJSON(popup.dataset.colorMap) || {};
     var addButton = popup.querySelector('[data-popup-add-to-cart]');
     var initialVariantId = addButton ? addButton.dataset.variantId : null;
     var initialVariant = variants.filter(function (v) {
@@ -94,7 +94,7 @@
       options: options,
       variants: variants,
       selected: selected,
-      swatchColors: swatchColors,
+      colorMap: colorMap,
     });
 
     optionsContainer.innerHTML = '';
@@ -153,20 +153,19 @@
     var row = document.createElement('div');
     row.className = 'gift-option__swatches';
 
-    option.values.forEach(function (value, valueIndex) {
+    option.values.forEach(function (value) {
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'gift-option__swatch';
       button.dataset.value = value;
       button.setAttribute('aria-pressed', 'false');
 
-      // Small color chip on the LEFT of the text (matches Figma). Colors
-      // come from the section's ordered swatch settings: the Nth color
-      // option value uses the Nth configured swatch color.
+      // Small color chip on the LEFT of the text (matches Figma). Colored by
+      // matching the option value's name against the configured color map.
       var chip = document.createElement('span');
       chip.className = 'gift-option__swatch-chip';
       chip.setAttribute('aria-hidden', 'true');
-      chip.style.backgroundColor = resolveSwatchColor(state.swatchColors, valueIndex, value);
+      chip.style.backgroundColor = resolveSwatchColor(state.colorMap, value);
       button.appendChild(chip);
 
       var text = document.createElement('span');
@@ -440,14 +439,14 @@
   };
 
   /**
-   * Resolves a swatch color for an option value. Prefers the ordered swatch
-   * colors from section settings (data-swatch-colors), indexed by the value's
-   * position in the color option. Falls back to a few common color names only
-   * if that setting is missing or empty.
+   * Resolves a swatch color for an option value. Prefers the name-keyed color
+   * map from section settings (data-color-map), matched case-insensitively
+   * against the value name. Falls back to a few common color names only if the
+   * value has no configured color.
    */
-  function resolveSwatchColor(swatchColors, valueIndex, value) {
-    if (swatchColors && swatchColors[valueIndex]) return swatchColors[valueIndex];
+  function resolveSwatchColor(colorMap, value) {
     var key = (value || '').toLowerCase().trim();
+    if (colorMap && colorMap[key]) return colorMap[key];
     return COLOR_FALLBACK[key] || '#000000';
   }
 

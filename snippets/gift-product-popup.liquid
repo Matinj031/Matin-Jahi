@@ -12,14 +12,18 @@
   (data-variants / data-options). gift-grid.js reads that JSON to build the
   color/size pickers and resolve the matching variant on every change - no
   product data is ever hardcoded. The two configurable swatch colors are
-  serialized to data-swatch-colors as an ORDERED list: the first entry colors
-  the product's first color option value, the second entry the second value,
-  regardless of what those values are named. Swatch colors come from section
-  settings, not code.
+  serialized to data-color-map as a NAME-KEYED map: each configured color
+  name (lowercased) maps to its hex value, so whichever option value matches
+  a configured name gets that swatch color regardless of option order. Swatch
+  colors come from section settings, not code.
 {%- enddoc -%}
 
-{%- capture swatch_colors -%}
-  ["{{ color_1_value | default: '#000000' }}", "{{ color_2_value | default: '#000000' }}"]
+{%- capture color_map -%}
+  {
+    {%- if color_1_name != blank -%}"{{ color_1_name | downcase | strip | escape }}": "{{ color_1_value | default: '#000000' }}"{%- endif -%}
+    {%- if color_1_name != blank and color_2_name != blank -%},{%- endif -%}
+    {%- if color_2_name != blank -%}"{{ color_2_name | downcase | strip | escape }}": "{{ color_2_value | default: '#000000' }}"{%- endif -%}
+  }
 {%- endcapture -%}
 
 <div
@@ -30,7 +34,7 @@
   data-product-handle="{{ product.handle }}"
   data-variants="{{ product.variants | json | escape }}"
   data-options="{{ product.options_with_values | json | escape }}"
-  data-swatch-colors="{{ swatch_colors | strip_newlines | strip | escape }}"
+  data-color-map="{{ color_map | strip_newlines | strip | escape }}"
   hidden
 >
   <div
