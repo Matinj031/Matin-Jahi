@@ -75,7 +75,10 @@
     var optionsContainer = popup.querySelector('[data-popup-options]');
     var options = safeParseJSON(popup.dataset.options) || [];
     var variants = safeParseJSON(popup.dataset.variants) || [];
-    var colorMap = safeParseJSON(popup.dataset.colorMap) || {};
+    // Ordered list of the two configurable swatch colors from section
+    // settings: entry 0 colors the color option's first value, entry 1 the
+    // second value (see gift-product-popup.liquid / data-swatch-colors).
+    var swatchColors = safeParseJSON(popup.dataset.swatchColors) || [];
     var addButton = popup.querySelector('[data-popup-add-to-cart]');
     var initialVariantId = addButton ? addButton.dataset.variantId : null;
     var initialVariant = variants.filter(function (v) {
@@ -91,7 +94,7 @@
       options: options,
       variants: variants,
       selected: selected,
-      colorMap: colorMap,
+      swatchColors: swatchColors,
     });
 
     optionsContainer.innerHTML = '';
@@ -150,19 +153,20 @@
     var row = document.createElement('div');
     row.className = 'gift-option__swatches';
 
-    option.values.forEach(function (value) {
+    option.values.forEach(function (value, valueIndex) {
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'gift-option__swatch';
       button.dataset.value = value;
       button.setAttribute('aria-pressed', 'false');
 
-      // Small color chip on the LEFT of the text (matches Figma), colored
-      // from the per-product color map serialized in data-color-map.
+      // Small color chip on the LEFT of the text (matches Figma). Colors
+      // come from the section's ordered swatch settings: the Nth color
+      // option value uses the Nth configured swatch color.
       var chip = document.createElement('span');
       chip.className = 'gift-option__swatch-chip';
       chip.setAttribute('aria-hidden', 'true');
-      chip.style.backgroundColor = resolveSwatchColor(state.colorMap, value);
+      chip.style.backgroundColor = resolveSwatchColor(state.swatchColors, valueIndex, value);
       button.appendChild(chip);
 
       var text = document.createElement('span');
@@ -436,13 +440,14 @@
   };
 
   /**
-   * Resolves a swatch color for an option value. Prefers the per-product
-   * color map from section settings (data-color-map); falls back to a few
-   * common color names only if the setting is missing.
+   * Resolves a swatch color for an option value. Prefers the ordered swatch
+   * colors from section settings (data-swatch-colors), indexed by the value's
+   * position in the color option. Falls back to a few common color names only
+   * if that setting is missing or empty.
    */
-  function resolveSwatchColor(colorMap, value) {
+  function resolveSwatchColor(swatchColors, valueIndex, value) {
+    if (swatchColors && swatchColors[valueIndex]) return swatchColors[valueIndex];
     var key = (value || '').toLowerCase().trim();
-    if (colorMap && colorMap[key]) return colorMap[key];
     return COLOR_FALLBACK[key] || '#000000';
   }
 
