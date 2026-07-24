@@ -42,9 +42,6 @@
   transition: opacity .25s ease;
 }
 
-.gift-banner__mobile-menu svg {
-  display: block;
-}
 
 .gift-banner__mobile-menu-icon--close {
   display: none;
@@ -297,7 +294,6 @@
   .gift-banner__topbar-button:hover,
   .gift-banner__mobile-panel-button:hover {
     color: #fff;
-    transform: translateY(-2px);
   }
 
   .gift-banner__topbar-button:hover::before,
@@ -308,7 +304,6 @@
 
   .gift-banner__button:hover {
     color: #000;
-    transform: translateY(-2px);
   }
 
   .gift-banner__button:hover .gift-banner__button-icon {
@@ -326,12 +321,6 @@
 .gift-banner__mobile-menu:focus-visible {
   outline: 2px solid #000;
   outline-offset: 3px;
-}
-
-.gift-banner__topbar-button:active,
-.gift-banner__mobile-panel-button:active,
-.gift-banner__button:active {
-  transform: translateY(1px);
 }
 
 .gift-banner__mobile-menu:active {
@@ -365,7 +354,7 @@
   }
 
   .gift-banner__button {
-    top: 590px;
+    top: 500px;
   }
 }
 
@@ -433,10 +422,11 @@
   }
 
   .gift-banner__graphics {
-    position: static;
+    position: relative;
     order: 2;
     inset: auto;
     width: 100%;
+    overflow: hidden;
   }
 
   .gift-banner__illustration {
@@ -444,14 +434,17 @@
   }
 
   .gift-banner__illustration-mobile {
-    position: static;
+    position: relative;
+    left: 50%;
     display: block;
-    width: 100%;
+    width: 168%;
+    max-width: none;
     height: auto;
+    transform: translateX(-50%);
   }
 
   .gift-banner__content {
-    position: relative;
+    position: static;
     order: 1;
     top: auto;
     left: auto;
@@ -461,14 +454,13 @@
     width: 100%;
     height: auto;
     margin: 0;
-    padding: 28px 16px 24px;
+    padding: 28px 16px 0;
     background: #fff;
     text-align: center;
   }
 
   .gift-banner__title,
-  .gift-banner__description,
-  .gift-banner__button {
+  .gift-banner__description {
     position: relative;
     top: auto;
     left: auto;
@@ -497,24 +489,30 @@
   }
 
   .gift-banner__button {
+    position: absolute;
+    z-index: 3;
+    top: auto;
+    bottom: 22px;
+    left: 50%;
     width: 209px;
-    max-width: 100%;
+    max-width: calc(100% - 32px);
     height: 42px;
-    margin-top: 20px;
+    margin: 0;
     gap: 18px;
     font-size: 16px;
-    box-shadow: none;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+    transform: translateX(-50%);
   }
 
   .gift-banner__strip {
-    padding: 9px 16px 10px;
+    padding: 11px 16px 12px;
   }
 
   .gift-banner__strip p {
-    max-width: 290px;
+    max-width: 320px;
     margin: 0 auto;
-    font-size: 12px;
-    line-height: 1.2;
+    font-size: 15px;
+    line-height: 1.3;
     letter-spacing: 0;
   }
 }

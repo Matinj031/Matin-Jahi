@@ -210,6 +210,7 @@
   color: #000;
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease;
+  position: relative;
 }
 
 .gift-option__swatch:last-child {
@@ -217,10 +218,12 @@
 }
 
 .gift-option__swatch-chip {
-  flex: 0 0 auto;
-  width: 14px;
-  height: 22px;
-  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  background-color: rgb(0, 0, 0);
+  position: absolute;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  border-right:1px solid rgba(0, 0, 0, 0.507);
 }
 
 .gift-option__swatch-text {
@@ -372,9 +375,5 @@
   .gift-grid__grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-  }
-
-  .gift-popup__box {
-    width: 100%;
   }
 }
