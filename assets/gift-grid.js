@@ -75,10 +75,11 @@
     var optionsContainer = popup.querySelector('[data-popup-options]');
     var options = safeParseJSON(popup.dataset.options) || [];
     var variants = safeParseJSON(popup.dataset.variants) || [];
-    // Name-keyed map of configurable swatch colors from section settings:
-    // { "<color name lowercased>": "<hex>" }. Whichever option value matches
-    // a configured name gets that color (see gift-product-popup.liquid).
-    var colorMap = safeParseJSON(popup.dataset.colorMap) || {};
+    // Ordered [{ name, color }] overrides from section settings. Entry N
+    // overrides the DISPLAY label + chip color of the color option's Nth
+    // value. The real option value is kept for variant resolution
+    // (see gift-product-popup.liquid).
+    var colorOverrides = safeParseJSON(popup.dataset.colorOverrides) || [];
     var addButton = popup.querySelector('[data-popup-add-to-cart]');
     var initialVariantId = addButton ? addButton.dataset.variantId : null;
     var initialVariant = variants.filter(function (v) {
@@ -94,7 +95,7 @@
       options: options,
       variants: variants,
       selected: selected,
-      colorMap: colorMap,
+      colorOverrides: colorOverrides,
     });
 
     optionsContainer.innerHTML = '';
@@ -153,24 +154,32 @@
     var row = document.createElement('div');
     row.className = 'gift-option__swatches';
 
-    option.values.forEach(function (value) {
+    option.values.forEach(function (value, valueIndex) {
+      var override = state.colorOverrides[valueIndex] || {};
+
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'gift-option__swatch';
+      // Keep the product's REAL option value here so variant resolution still
+      // works even when the admin renames the label below.
       button.dataset.value = value;
       button.setAttribute('aria-pressed', 'false');
 
-      // Small color chip on the LEFT of the text (matches Figma). Colored by
-      // matching the option value's name against the configured color map.
+      // Small color chip on the LEFT of the text (matches Figma), colored from
+      // the admin's per-position override (falls back to a common color name).
       var chip = document.createElement('span');
       chip.className = 'gift-option__swatch-chip';
       chip.setAttribute('aria-hidden', 'true');
-      chip.style.backgroundColor = resolveSwatchColor(state.colorMap, value);
+      chip.style.backgroundColor = resolveSwatchColor(override, value);
       button.appendChild(chip);
 
+      // Show the admin-configured name when set, otherwise the real value.
+      var displayName = (override.name && override.name.trim())
+        ? override.name.trim()
+        : value;
       var text = document.createElement('span');
       text.className = 'gift-option__swatch-text';
-      text.textContent = value;
+      text.textContent = displayName;
       button.appendChild(text);
 
       button.addEventListener('click', function () {
@@ -439,14 +448,13 @@
   };
 
   /**
-   * Resolves a swatch color for an option value. Prefers the name-keyed color
-   * map from section settings (data-color-map), matched case-insensitively
-   * against the value name. Falls back to a few common color names only if the
-   * value has no configured color.
+   * Resolves a swatch color. Prefers the admin's per-position override color
+   * from section settings; falls back to a few common color names (keyed off
+   * the real value) only if no override color is set.
    */
-  function resolveSwatchColor(colorMap, value) {
+  function resolveSwatchColor(override, value) {
+    if (override && override.color) return override.color;
     var key = (value || '').toLowerCase().trim();
-    if (colorMap && colorMap[key]) return colorMap[key];
     return COLOR_FALLBACK[key] || '#000000';
   }
 
