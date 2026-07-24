@@ -357,7 +357,7 @@
    ========================================================================== */
 @media (max-width: 989px) {
   .gift-grid__grid {
-    grid-template-columns: repeat(2, 2f);
+    grid-template-columns: repeat(2, 1fr);
   }
   .gift-grid-section {
     padding-inline: 20px;
@@ -370,7 +370,8 @@
 
 @media (max-width: 599px) {
   .gift-grid__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .gift-popup__box {
