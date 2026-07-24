@@ -99,12 +99,82 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "gift_grid_WrzX4g": {
+      "type": "gift-grid",
+      "blocks": {
+        "tile_6CkGwa": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_cff5c769-e665-4b54-bd0c-f64ce5a3dabf.jpg",
+            "product": "black-leather-bag",
+            "hotspot_x": 62,
+            "hotspot_y": 56
+          }
+        },
+        "tile_edYiFE": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "hotspot_x": 85,
+            "hotspot_y": 53
+          }
+        },
+        "tile_YiDXKA": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "hotspot_x": 63,
+            "hotspot_y": 21
+          }
+        },
+        "tile_z4xyYE": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "hotspot_x": 72,
+            "hotspot_y": 19
+          }
+        },
+        "tile_eaxCD7": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "hotspot_x": 52,
+            "hotspot_y": 26
+          }
+        },
+        "tile_xYH9AM": {
+          "type": "tile",
+          "settings": {
+            "product": "",
+            "hotspot_x": 76,
+            "hotspot_y": 39
+          }
+        }
+      },
+      "block_order": [
+        "tile_6CkGwa",
+        "tile_edYiFE",
+        "tile_YiDXKA",
+        "tile_z4xyYE",
+        "tile_eaxCD7",
+        "tile_xYH9AM"
+      ],
+      "name": "Gift grid",
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "enable_bundle": true,
+        "bundle_product": "",
+        "bundle_trigger_options": "black,medium"
+      }
     }
   },
   "order": [
     "banner_3X8j6f",
     "tisso_wild_MF4jkk",
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "gift_grid_WrzX4g"
   ]
 }
