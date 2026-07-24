@@ -75,6 +75,7 @@
     var optionsContainer = popup.querySelector('[data-popup-options]');
     var options = safeParseJSON(popup.dataset.options) || [];
     var variants = safeParseJSON(popup.dataset.variants) || [];
+    var colorMap = safeParseJSON(popup.dataset.colorMap) || {};
     var addButton = popup.querySelector('[data-popup-add-to-cart]');
     var initialVariantId = addButton ? addButton.dataset.variantId : null;
     var initialVariant = variants.filter(function (v) {
@@ -86,18 +87,36 @@
       : []
     ).slice(0, options.length);
 
-    popupState.set(popup, { options: options, variants: variants, selected: selected });
+    popupState.set(popup, {
+      options: options,
+      variants: variants,
+      selected: selected,
+      colorMap: colorMap,
+    });
 
     optionsContainer.innerHTML = '';
 
-    options.forEach(function (option, index) {
-      // First option renders as a swatch-style row (matches the Figma
-      // "Color" row); any further options render as an expandable
-      // dropdown (matches the Figma "Size" row). This works for any
-      // option name/count, not just literally "Color"/"Size".
-      var row = index === 0
-        ? buildSwatchRow(popup, option, index)
-        : buildDropdownRow(popup, option, index);
+    // Figure out which option is the "Color" one, matching by name. Only if
+    // NO option is named color do we fall back to the first option. This is
+    // computed once so a "Size" option that happens to be option1 is never
+    // mistaken for the color swatch row.
+    var colorIndex = resolveColorIndex(options);
+
+    // Render Color first (as a swatch row), then Size/other options (as
+    // dropdowns) below it — matching the Figma layout regardless of the
+    // order Shopify returns the product options in.
+    var ordered = options
+      .map(function (option, index) { return { option: option, index: index }; })
+      .sort(function (a, b) {
+        var aRank = a.index === colorIndex ? 0 : 1;
+        var bRank = b.index === colorIndex ? 0 : 1;
+        return aRank - bRank;
+      });
+
+    ordered.forEach(function (entry) {
+      var row = entry.index === colorIndex
+        ? buildSwatchRow(popup, entry.option, entry.index)
+        : buildDropdownRow(popup, entry.option, entry.index);
       optionsContainer.appendChild(row);
     });
 
@@ -105,9 +124,23 @@
     resolveVariant(popup);
   }
 
+  /**
+   * Returns the index of the option that should render as the color swatch
+   * row. Prefers an option literally named "Color"/"Colour"; only if none
+   * match does it fall back to the first option.
+   */
+  function resolveColorIndex(options) {
+    for (var i = 0; i < options.length; i++) {
+      if (/colou?r/i.test(options[i].name || '')) return i;
+    }
+    return 0;
+  }
+
   function buildSwatchRow(popup, option, index) {
+    var state = popupState.get(popup);
     var wrapper = document.createElement('div');
     wrapper.className = 'gift-option';
+    wrapper.dataset.optionIndex = index;
 
     var label = document.createElement('p');
     label.className = 'gift-option__label';
@@ -121,10 +154,22 @@
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'gift-option__swatch';
-      button.textContent = value;
       button.dataset.value = value;
-      button.style.setProperty('--gift-swatch-color', colorNameToHex(value));
       button.setAttribute('aria-pressed', 'false');
+
+      // Small color chip on the LEFT of the text (matches Figma), colored
+      // from the per-product color map serialized in data-color-map.
+      var chip = document.createElement('span');
+      chip.className = 'gift-option__swatch-chip';
+      chip.setAttribute('aria-hidden', 'true');
+      chip.style.backgroundColor = resolveSwatchColor(state.colorMap, value);
+      button.appendChild(chip);
+
+      var text = document.createElement('span');
+      text.className = 'gift-option__swatch-text';
+      text.textContent = value;
+      button.appendChild(text);
+
       button.addEventListener('click', function () {
         selectOption(popup, index, value);
       });
@@ -138,6 +183,7 @@
   function buildDropdownRow(popup, option, index) {
     var wrapper = document.createElement('div');
     wrapper.className = 'gift-option';
+    wrapper.dataset.optionIndex = index;
 
     var label = document.createElement('p');
     label.className = 'gift-option__label';
@@ -193,8 +239,7 @@
 
     // Reflect the pressed/selected state visually.
     var optionsContainer = popup.querySelector('[data-popup-options]');
-    var rows = optionsContainer.querySelectorAll('.gift-option');
-    var row = rows[index];
+    var row = optionsContainer.querySelector('.gift-option[data-option-index="' + index + '"]');
     if (row) {
       row.querySelectorAll('[data-value]').forEach(function (el) {
         var isSelected = el.dataset.value === value;
@@ -214,10 +259,9 @@
   function refreshAvailability(popup) {
     var state = popupState.get(popup);
     var optionsContainer = popup.querySelector('[data-popup-options]');
-    var rows = optionsContainer.querySelectorAll('.gift-option');
 
     state.options.forEach(function (option, index) {
-      var row = rows[index];
+      var row = optionsContainer.querySelector('.gift-option[data-option-index="' + index + '"]');
       if (!row) return;
 
       row.querySelectorAll('[data-value]').forEach(function (el) {
@@ -384,15 +428,22 @@
     return '€' + (cents / 100).toFixed(2).replace('.', ',');
   }
 
-  var COLOR_MAP = {
+  var COLOR_FALLBACK = {
     black: '#000000', white: '#ffffff', blue: '#0d499f', navy: '#1c2b4a',
     red: '#b3261e', grey: '#808080', gray: '#808080', green: '#2f5233',
     pink: '#e8a0bf', orange: '#d2691e', yellow: '#fff544', beige: '#e8dcc8',
     brown: '#6b4423',
   };
 
-  function colorNameToHex(name) {
-    return COLOR_MAP[(name || '').toLowerCase()] || '#000000';
+  /**
+   * Resolves a swatch color for an option value. Prefers the per-product
+   * color map from section settings (data-color-map); falls back to a few
+   * common color names only if the setting is missing.
+   */
+  function resolveSwatchColor(colorMap, value) {
+    var key = (value || '').toLowerCase().trim();
+    if (colorMap && colorMap[key]) return colorMap[key];
+    return COLOR_FALLBACK[key] || '#000000';
   }
 
   // ---------------------------------------------------------------------

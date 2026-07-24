@@ -52,7 +52,14 @@
             <span aria-hidden="true">+</span>
           </button>
 
-          {%- render 'gift-product-popup', product: tile_product, block_id: block.id -%}
+          {%- render 'gift-product-popup',
+            product: tile_product,
+            block_id: block.id,
+            color_1_name: block.settings.color_1_name,
+            color_1_value: block.settings.color_1_value,
+            color_2_name: block.settings.color_2_name,
+            color_2_value: block.settings.color_2_value
+          -%}
         {%- endif -%}
       </div>
     {%- endfor -%}
@@ -111,6 +118,37 @@
           "type": "product",
           "id": "product",
           "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Colors",
+          "info": "Each product has two unique colors shown in the quick-view popup."
+        },
+        {
+          "type": "text",
+          "id": "color_1_name",
+          "label": "Color 1 name",
+          "info": "Must match the product's first color option value (e.g. Red).",
+          "default": "Red"
+        },
+        {
+          "type": "color",
+          "id": "color_1_value",
+          "label": "Color 1 swatch",
+          "default": "#b3261e"
+        },
+        {
+          "type": "text",
+          "id": "color_2_name",
+          "label": "Color 2 name",
+          "info": "Must match the product's second color option value (e.g. Grey).",
+          "default": "Grey"
+        },
+        {
+          "type": "color",
+          "id": "color_2_value",
+          "label": "Color 2 swatch",
+          "default": "#808080"
         },
         {
           "type": "range",

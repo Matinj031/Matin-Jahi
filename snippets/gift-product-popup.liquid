@@ -3,12 +3,24 @@
 
   @param {object} product - the product to show
   @param {string} block_id - the parent block id, used to build a unique DOM id
+  @param {string} color_1_name - name of the product's first unique color (matches an option value)
+  @param {string} color_1_value - hex swatch for color 1
+  @param {string} color_2_name - name of the product's second unique color
+  @param {string} color_2_value - hex swatch for color 2
 
   All variant + option data is serialized to JSON on the root element
   (data-variants / data-options). gift-grid.js reads that JSON to build the
   color/size pickers and resolve the matching variant on every change - no
-  product data is ever hardcoded.
+  product data is ever hardcoded. The two configurable colors are serialized
+  to data-color-map so swatch colors come from section settings, not code.
 {%- enddoc -%}
+
+{%- capture color_map -%}
+  {
+    {%- if color_1_name != blank -%}"{{ color_1_name | downcase | strip }}": "{{ color_1_value | default: '#000000' }}"{%- endif -%}
+    {%- if color_2_name != blank -%}, "{{ color_2_name | downcase | strip }}": "{{ color_2_value | default: '#000000' }}"{%- endif -%}
+  }
+{%- endcapture -%}
 
 <div
   id="gift-popup-{{ block_id }}"
@@ -18,6 +30,7 @@
   data-product-handle="{{ product.handle }}"
   data-variants="{{ product.variants | json | escape }}"
   data-options="{{ product.options_with_values | json | escape }}"
+  data-color-map="{{ color_map | strip_newlines | strip | escape }}"
   hidden
 >
   <div
@@ -91,7 +104,21 @@
           Sold out
         {%- endif -%}
       </span>
-      <span class="gift-popup__add-icon" aria-hidden="true"></span>
+      <svg
+        class="gift-popup__add-icon"
+        width="26"
+        height="10"
+        viewBox="0 0 26 10"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 5H24M24 5L20 1M24 5L20 9"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="square"
+        />
+      </svg>
     </button>
   </div>
 </div>
