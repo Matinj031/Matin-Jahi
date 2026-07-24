@@ -115,9 +115,9 @@
             "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
             "product": "blue-silk-tuxedo",
             "color_1_name": "Red",
-            "color_1_value": "#F1261B",
-            "color_2_name": "Green",
-            "color_2_value": "#18F382",
+            "color_1_value": "#b3261e",
+            "color_2_name": "Grey",
+            "color_2_value": "#808080",
             "hotspot_x": 64,
             "hotspot_y": 53
           }
