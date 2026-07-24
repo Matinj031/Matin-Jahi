@@ -117,14 +117,15 @@
           "settings": {
             "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
             "product": "blue-silk-tuxedo",
-            "hotspot_x": 85,
+            "hotspot_x": 64,
             "hotspot_y": 53
           }
         },
         "tile_YiDXKA": {
           "type": "tile",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/red-plaid-shirt_925x_06b1b3fe-83fc-41ee-92fa-1a1790b2c2d8.jpg",
+            "product": "chequered-red-shirt",
             "hotspot_x": 63,
             "hotspot_y": 21
           }
