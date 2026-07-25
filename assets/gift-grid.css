@@ -47,7 +47,7 @@
   border-radius: 50%;
   border: none;
   padding: 0;
-  background: #ffffff;
+  background: rgba(248, 248, 248, 0.9);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   color: #000;
   font-size: 14px;
@@ -138,7 +138,7 @@
 .gift-popup__product-title {
   margin: 0 0 8px;
   font-family: "Jost", sans-serif;
-  font-weight: 100;
+  font-weight: 300;
   font-size: 16px;
   line-height: 120%;
   color: #000;
@@ -156,10 +156,10 @@
 .gift-popup__description {
   margin: 0;
   font-family: "Jost", sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 14px;
   line-height: 110%;
-  letter-spacing: -1%;
+  letter-spacing: -0.14px;
   color: #000;
 }
 
@@ -392,6 +392,13 @@
 @media (max-width: 599px) {
   .gift-grid__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 4px;
+  }
+  .gift-grid-section {
+    padding-inline: 10px;
+  }
+  .gift-grid__heading {
+    font-size: 24px;
+    margin: 24px 0;
   }
 }
