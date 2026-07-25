@@ -211,7 +211,7 @@
     trigger.className = 'gift-option__dropdown-trigger';
     trigger.innerHTML =
       '<span data-dropdown-label>Choose your ' + option.name.toLowerCase() + '</span>' +
-      '<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>';
+      '<span class="gift-option__dropdown-caret"><svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></span>';
     trigger.addEventListener('click', function () {
       var isOpen = dropdown.dataset.open === 'true';
       // Close any other open dropdowns in this popup first.
