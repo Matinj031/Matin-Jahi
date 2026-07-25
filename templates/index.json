@@ -104,7 +104,7 @@
             "color_1_name": "Red",
             "color_1_value": "#f1261b",
             "color_2_name": "Blue",
-            "color_2_value": "#241AE5",
+            "color_2_value": "#241ae5",
             "hotspot_x": 62,
             "hotspot_y": 56
           }
@@ -114,10 +114,10 @@
           "settings": {
             "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
             "product": "blue-silk-tuxedo",
-            "color_1_name": "Red",
-            "color_1_value": "#b3261e",
-            "color_2_name": "Grey",
-            "color_2_value": "#808080",
+            "color_1_name": "Green",
+            "color_1_value": "#1EB357",
+            "color_2_name": "Pink",
+            "color_2_value": "#FF099D",
             "hotspot_x": 64,
             "hotspot_y": 53
           }
