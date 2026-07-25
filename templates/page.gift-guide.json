@@ -1,0 +1,111 @@
+{
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "name": "Banner",
+      "settings": {
+        "logo": "shopify://shop_images/logo.svg",
+        "announcement_text": "Find the ideal gift for your loved ones.",
+        "announcement_button_text": "CHOOSE GIFT",
+        "announcement_button_link": "",
+        "heading": "The Gift Guide",
+        "description": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p><p>Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "button_text": "SHOP NOW",
+        "button_link": "",
+        "bottom_strip_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      }
+    },
+    "gift_grid": {
+      "type": "gift-grid",
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_cff5c769-e665-4b54-bd0c-f64ce5a3dabf.jpg",
+            "product": "black-leather-bag",
+            "color_1_name": "Red",
+            "color_1_value": "#f1261b",
+            "color_2_name": "Blue",
+            "color_2_value": "#241ae5",
+            "hotspot_x": 62,
+            "hotspot_y": 56
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_6cb3ffe3-54c8-4ce9-b293-05a9ab4bb47a.jpg",
+            "product": "blue-silk-tuxedo",
+            "color_1_name": "Green",
+            "color_1_value": "#1EB357",
+            "color_2_name": "Pink",
+            "color_2_value": "#FF099D",
+            "hotspot_x": 64,
+            "hotspot_y": 53
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/red-plaid-shirt_925x_06b1b3fe-83fc-41ee-92fa-1a1790b2c2d8.jpg",
+            "product": "chequered-red-shirt",
+            "color_1_name": "Red",
+            "color_1_value": "#b3261e",
+            "color_2_name": "Grey",
+            "color_2_value": "#808080",
+            "hotspot_x": 63,
+            "hotspot_y": 21
+          }
+        },
+        "tile_4": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/leather-jacket-and-tea_925x_36393496-fd4f-471d-a6db-6661fc9c9661.jpg",
+            "product": "classic-leather-jacket",
+            "color_1_name": "Red",
+            "color_1_value": "#b3261e",
+            "color_2_name": "Grey",
+            "color_2_value": "#808080",
+            "hotspot_x": 72,
+            "hotspot_y": 19
+          }
+        },
+        "tile_5": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/casual-fashion-woman_925x_eb93a173-f06f-4aba-81d6-d1ca57d7ccd6.jpg",
+            "product": "classic-varsity-top",
+            "color_1_name": "Red",
+            "color_1_value": "#b3261e",
+            "color_2_name": "Grey",
+            "color_2_value": "#808080",
+            "hotspot_x": 52,
+            "hotspot_y": 26
+          }
+        },
+        "tile_6": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/young-female-models-denim_925x_4bcb7bd4-c072-47be-9751-9118d09fd15a.jpg",
+            "product": "dark-denim-top",
+            "color_1_name": "Red",
+            "color_1_value": "#b3261e",
+            "color_2_name": "Grey",
+            "color_2_value": "#808080",
+            "hotspot_x": 76,
+            "hotspot_y": 39
+          }
+        }
+      },
+      "block_order": ["tile_1", "tile_2", "tile_3", "tile_4", "tile_5", "tile_6"],
+      "name": "Gift grid",
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "enable_bundle": true,
+        "bundle_product": "dark-winter-jacket",
+        "bundle_trigger_options": "black,medium"
+      }
+    }
+  },
+  "order": ["banner", "gift_grid"]
+}

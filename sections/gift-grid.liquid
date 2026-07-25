@@ -11,8 +11,9 @@
   class="gift-grid-section"
   data-gift-grid
   data-bundle-enabled="{{ section.settings.enable_bundle }}"
-  data-bundle-variant-id="{{ section.settings.bundle_product.selected_or_first_available_variant.id }}"
+  data-bundle-variants="{{ section.settings.bundle_product.variants | json | escape }}"
   data-bundle-trigger-options="{{ section.settings.bundle_trigger_options | strip_newlines | strip }}"
+  data-money-format="{{ shop.money_format | escape }}"
 >
   {%- if section.settings.heading != blank -%}
     <h2 class="gift-grid__heading">{{ section.settings.heading }}</h2>

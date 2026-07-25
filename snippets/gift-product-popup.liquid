@@ -20,11 +20,18 @@
   settings, not code.
 {%- enddoc -%}
 
+{%- comment -%}
+  Color overrides are an OPTIONAL, per-value map: keyed by the product's real
+  color option value. Labels + swatch hexes default to the live product data
+  (fully dynamic) and are only overridden when the merchant fills one in.
+{%- endcomment -%}
 {%- capture color_overrides -%}
-  [
-    {"name": "{{ color_1_name | strip | escape }}", "color": "{{ color_1_value | default: '#000000' }}"},
-    {"name": "{{ color_2_name | strip | escape }}", "color": "{{ color_2_value | default: '#000000' }}"}
-  ]
+  {
+    {%- assign first_color = product.options_with_values | where: "name", "Color" | first -%}
+    {%- assign color_values = first_color.values | default: product.options_with_values[0].values -%}
+    "{{ color_values[0] | escape }}": {"name": "{{ color_1_name | strip | escape }}", "color": "{{ color_1_value | default: '' }}"},
+    "{{ color_values[1] | escape }}": {"name": "{{ color_2_name | strip | escape }}", "color": "{{ color_2_value | default: '' }}"}
+  }
 {%- endcapture -%}
 
 <div

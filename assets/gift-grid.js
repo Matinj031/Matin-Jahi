@@ -17,11 +17,12 @@
   if (!root) return;
 
   var bundleEnabled = root.dataset.bundleEnabled === 'true';
-  var bundleVariantId = root.dataset.bundleVariantId;
+  var bundleVariants = safeParseJSON(root.dataset.bundleVariants) || [];
   var bundleTriggerValues = (root.dataset.bundleTriggerOptions || '')
     .split(',')
     .map(function (value) { return value.trim().toLowerCase(); })
     .filter(Boolean);
+  var moneyFormat = root.dataset.moneyFormat || '${{amount}}';
 
   /**
    * Per-popup state: which value is currently picked for each option
@@ -154,8 +155,10 @@
     var row = document.createElement('div');
     row.className = 'gift-option__swatches';
 
-    option.values.forEach(function (value, valueIndex) {
-      var override = state.colorOverrides[valueIndex] || {};
+    option.values.forEach(function (value) {
+      // Overrides are keyed by the REAL option value. Labels/swatches default
+      // to the live product data and are only overridden when explicitly set.
+      var override = state.colorOverrides[value] || {};
 
       var button = document.createElement('button');
       button.type = 'button';
@@ -360,7 +363,7 @@
 
     // Business rule: Black + Medium on the item being added also adds
     // the configured bundle product (e.g. "Soft Winter Jacket").
-    if (bundleEnabled && bundleVariantId && bundleTriggerValues.length) {
+    if (bundleEnabled && bundleVariants.length && bundleTriggerValues.length) {
       var selectedLower = state.selected.map(function (v) {
         return (v || '').toLowerCase();
       });
@@ -368,13 +371,12 @@
         return selectedLower.indexOf(needed) !== -1;
       });
       if (triggersAllMatch) {
-        items.push({ id: Number(bundleVariantId), quantity: 1 });
+        var bundleVariant = resolveBundleVariant();
+        if (bundleVariant) items.push({ id: Number(bundleVariant.id), quantity: 1 });
       }
     }
 
-    fetch(window.Shopify && window.Shopify.routes && window.Shopify.routes.root
-      ? window.Shopify.routes.root + 'cart/add.js'
-      : '/cart/add.js', {
+    fetch((window.routes && window.routes.cart_add_url) || '/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ items: items }),
@@ -416,6 +418,11 @@
           el.textContent = cart.item_count;
         });
         document.dispatchEvent(new CustomEvent('cart:refresh', { detail: cart, bubbles: true }));
+
+        // Let Dawn's cart drawer / cart-notification re-render and open.
+        if (typeof publish === 'function' && window.PUB_SUB_EVENTS) {
+          publish(window.PUB_SUB_EVENTS.cartUpdate, { source: 'gift-grid', cartData: cart });
+        }
       })
       .catch(function (err) {
         console.error('Gift grid: could not refresh cart count', err);
@@ -436,8 +443,46 @@
     }
   }
 
+  /**
+   * Picks the bundle product's variant: prefers the first AVAILABLE one,
+   * and among available ones prefers a variant whose option values include
+   * the trigger values (e.g. a Black/Medium jacket). Falls back to the
+   * first variant overall so the rule never silently fails.
+   */
+  function resolveBundleVariant() {
+    if (!bundleVariants.length) return null;
+    var available = bundleVariants.filter(function (v) { return v.available; });
+    var pool = available.length ? available : bundleVariants;
+    for (var i = 0; i < pool.length; i++) {
+      var values = [pool[i].option1, pool[i].option2, pool[i].option3]
+        .map(function (v) { return (v || '').toLowerCase(); });
+      var matches = bundleTriggerValues.every(function (needed) {
+        return values.indexOf(needed) !== -1;
+      });
+      if (matches) return pool[i];
+    }
+    return pool[0];
+  }
+
+  /**
+   * Renders cents using the shop's own money format (exposed on the section
+   * as data-money-format). Handles the common {{amount}} / {{amount_no_decimals}}
+   * / {{amount_with_comma_separator}} placeholders; falls back gracefully.
+   */
   function formatMoney(cents) {
-    return '€' + (cents / 100).toFixed(2).replace('.', ',');
+    var value = (cents / 100).toFixed(2);
+    var amountNoDecimals = String(Math.round(cents / 100));
+    var amountComma = value.replace('.', ',');
+    var amountNoDecimalsComma = amountNoDecimals;
+
+    var formatted = moneyFormat
+      .replace(/\{\{\s*amount_no_decimals_with_comma_separator\s*\}\}/g, amountNoDecimalsComma)
+      .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, amountComma)
+      .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, amountNoDecimals)
+      .replace(/\{\{\s*amount\s*\}\}/g, value);
+
+    // Safety net: if no placeholder was present, append the raw value.
+    return formatted.indexOf('{{') === -1 ? formatted : value;
   }
 
   var COLOR_FALLBACK = {
