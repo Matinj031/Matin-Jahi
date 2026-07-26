@@ -1,0 +1,136 @@
+{%- doc -%}
+  Renders one product's quick-view popup.
+
+  @param {object} product - the product to show
+  @param {string} block_id - the parent block id, used to build a unique DOM id
+  @param {string} color_1_name - name of the product's first unique color (matches an option value)
+  @param {string} color_1_value - hex swatch for color 1
+  @param {string} color_2_name - name of the product's second unique color
+  @param {string} color_2_value - hex swatch for color 2
+
+  All variant + option data is serialized to JSON on the root element
+  (data-variants / data-options). gift-grid.js reads that JSON to build the
+  color/size pickers and resolve the matching variant on every change - no
+  product data is ever hardcoded. The two configurable colors are serialized
+  to data-color-overrides as an ORDERED list of { name, color } entries: the
+  first entry overrides the DISPLAY label + swatch of the product's first
+  color option value, the second entry the second value. The product's real
+  option value is always kept underneath for variant resolution, so renaming
+  the label never breaks Add to Cart. Colors/names come from section
+  settings, not code.
+{%- enddoc -%}
+
+{%- comment -%}
+  Color overrides are an OPTIONAL, per-value map: keyed by the product's real
+  color option value. Labels + swatch hexes default to the live product data
+  (fully dynamic) and are only overridden when the merchant fills one in.
+{%- endcomment -%}
+{%- capture color_overrides -%}
+  {
+    {%- assign first_color = product.options_with_values | where: "name", "Color" | first -%}
+    {%- assign color_values = first_color.values | default: product.options_with_values[0].values -%}
+    "{{ color_values[0] | escape }}": {"name": "{{ color_1_name | strip | escape }}", "color": "{{ color_1_value | default: '' }}"},
+    "{{ color_values[1] | escape }}": {"name": "{{ color_2_name | strip | escape }}", "color": "{{ color_2_value | default: '' }}"}
+  }
+{%- endcapture -%}
+
+<div
+  id="gift-popup-{{ block_id }}"
+  class="gift-popup"
+  data-gift-popup
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+  data-variants="{{ product.variants | json | escape }}"
+  data-options="{{ product.options_with_values | json | escape }}"
+  data-color-overrides="{{ color_overrides | strip_newlines | strip | escape }}"
+  hidden
+>
+  <div
+    class="gift-popup__backdrop"
+    data-popup-close
+  ></div>
+
+  <div
+    class="gift-popup__box"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ product.title | escape }}"
+  >
+    <button
+      type="button"
+      class="gift-popup__close"
+      data-popup-close
+      aria-label="Close"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <div class="gift-popup__top">
+      <div class="gift-popup__image">
+        {%- if product.featured_image != blank -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 240 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            width="120"
+            height="140"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="gift-popup__info">
+        <p class="gift-popup__product-title">{{ product.title }}</p>
+        <p class="gift-popup__price" data-popup-price>{{ product.price | money }}</p>
+
+        {%- if product.description != blank -%}
+          <p class="gift-popup__description">
+            {{ product.description | strip_html | truncate: 140 }}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%}
+      Color / size rows are built entirely in JS from data-options above,
+      since the number of options and their values differ per product.
+    {%- endcomment -%}
+    <div class="gift-popup__options" data-popup-options></div>
+
+    <p class="gift-popup__error" data-popup-error hidden>
+      Please select all options before adding to cart.
+    </p>
+
+    <button
+      type="button"
+      class="gift-popup__add-to-cart"
+      data-popup-add-to-cart
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+    >
+      <span data-popup-add-label>
+        {%- if product.selected_or_first_available_variant.available -%}
+          Add to cart
+        {%- else -%}
+          Sold out
+        {%- endif -%}
+      </span>
+      <svg
+        class="gift-popup__add-icon"
+        width="26"
+        height="10"
+        viewBox="0 0 26 10"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 5H24M24 5L20 1M24 5L20 9"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="square"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
